@@ -96,7 +96,7 @@ class AccountServiceTest {
 
         when(accountRepository.findAccount(ID)).thenReturn(existingAccount);
 
-        final TransactionEventData eventData = TransactionEventData.builder()
+        TransactionEventData eventData = TransactionEventData.builder()
                 .recipient("recipient")
                 .amount(BigDecimal.valueOf(100))
                 .timestamp(Instant.now())
@@ -136,7 +136,7 @@ class AccountServiceTest {
     }
 
     @Test
-    void fundBalance_throwsInvalidFundAmountException_whenNegativeBalance() throws JsonProcessingException {
+    void fundBalance_throwsInvalidFundAmountException_whenBalanceIsPositive() throws JsonProcessingException {
         AccountAggregate existingAccount = new AccountAggregate();
         existingAccount.setVersion(2);
         existingAccount.setId(ID);
