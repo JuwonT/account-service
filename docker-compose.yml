@@ -1,0 +1,37 @@
+volumes:
+  mysql:
+    driver: local
+
+services:
+  db:
+    platform: linux/x86_64
+    image: mysql:9
+    container_name: db
+    restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 1024M
+        reservations:
+          cpus: '1'
+          memory: 256M
+    environment:
+      MYSQL_DATABASE: 'account_db'
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: 'none'
+      MYSQL_ROOT_PASSWORD: 'password'
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
+    volumes:
+#      - ./db_data:/var/lib/mysql
+      - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    command:
+      --explicit_defaults_for_timestamp=true
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      timeout: 20s
+      retries: 10
+
