@@ -1,4 +1,4 @@
-# Store API
+# Account Management System
 
 ---
 ## Table of Contents
